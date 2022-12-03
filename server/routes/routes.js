@@ -27,11 +27,11 @@ router.get("/getCategories", (req, res) => {
   });
 });
 
-//add iterm to category
+//add item to category
 router.put("/addCategoryItem/:id", async (req, res) => {
   const _id = req.params.id;
   const item = req.body.item;
-  console.log(item);
+
   CategoriesModel.findOneAndUpdate(
     { _id: _id },
     {
@@ -43,6 +43,27 @@ router.put("/addCategoryItem/:id", async (req, res) => {
         res.status(404).json();
       } else {
         res.send("Item Added");
+      }
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+//remove item from category
+router.put("/removeCategoryItem/:id", async (req, res) => {
+  const _id = req.params.id;
+  const itemId = req.body.itemId;
+
+  CategoriesModel.findOneAndUpdate(
+    { _id: _id },
+    {
+      $pull: { items: { _id: itemId } },
+    }
+  )
+    .then((result) => {
+      if (!result) {
+        res.status(404).json();
+      } else {
+        res.send("Item Removed");
       }
     })
     .catch((err) => res.status(500).json({ error: err }));
