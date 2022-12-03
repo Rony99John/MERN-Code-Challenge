@@ -25,6 +25,9 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: false,
       },
+      itemOrderNumber: {
+        type: Number,
+      },
     },
   ],
   orderNumber: {
