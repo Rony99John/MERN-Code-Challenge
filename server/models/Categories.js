@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const AutoIncrement = require("mongoose-sequence")(mongoose);
+
 const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -25,7 +27,11 @@ const CategorySchema = new mongoose.Schema({
       },
     },
   ],
+  orderNumber: {
+    type: Number,
+  },
 });
 
+CategorySchema.plugin(AutoIncrement, { inc_field: "orderNumber" });
 const CategoriesModel = mongoose.model("categories", CategorySchema);
 module.exports = CategoriesModel;

@@ -19,7 +19,7 @@ router.post("/createCategory", async (req, res) => {
     const newCategory = new CategoriesModel(category);
     await newCategory.save();
 
-    res.send(category);
+    res.send("category added");
   } catch (err) {
     console.log("hello");
     console.log(err);
