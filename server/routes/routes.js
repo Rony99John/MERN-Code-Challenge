@@ -42,7 +42,28 @@ router.put("/addCategoryItem/:id", async (req, res) => {
       if (!result) {
         res.status(404).json();
       } else {
-        res.json({ result: result });
+        res.send("Item Added");
+      }
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+//change category name
+router.put("/updateCategoryName/:id", async (req, res) => {
+  const _id = req.params.id;
+  const newName = req.body.name;
+
+  CategoriesModel.findOneAndUpdate(
+    { _id: _id },
+    {
+      name: newName,
+    }
+  )
+    .then((result) => {
+      if (!result) {
+        res.status(404).json();
+      } else {
+        res.send("Name changed");
       }
     })
     .catch((err) => res.status(500).json({ error: err }));
