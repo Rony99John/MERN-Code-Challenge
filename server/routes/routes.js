@@ -50,11 +50,10 @@ router.put("/addCategoryItem/:id", async (req, res) => {
 
 //remove item from category
 router.put("/removeCategoryItem/:id", async (req, res) => {
-  const _id = req.params.id;
-  const itemId = req.body.itemId;
+  const itemId = req.params.id;
 
   CategoriesModel.findOneAndUpdate(
-    { _id: _id },
+    { "items._id": itemId },
     {
       $pull: { items: { _id: itemId } },
     }
@@ -85,6 +84,32 @@ router.put("/updateCategoryName/:id", async (req, res) => {
         res.status(404).json();
       } else {
         res.send("Name changed");
+      }
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+//update item in categoory
+router.put("/updateCategoryItem/:id", async (req, res) => {
+  const itemId = req.params.id;
+  const newItem = req.body.item;
+
+  CategoriesModel.findOneAndUpdate(
+    { "items._id": itemId },
+    {
+      $set: {
+        "items.$.name": newItem.name,
+        "items.$.description": newItem.description,
+        "items.$.price": newItem.price,
+        "items.$.image": newItem.image,
+      },
+    }
+  )
+    .then((result) => {
+      if (!result) {
+        res.status(404).json();
+      } else {
+        res.send("Item Updated");
       }
     })
     .catch((err) => res.status(500).json({ error: err }));
