@@ -11,8 +11,7 @@ router.post("/createCategory", async (req, res) => {
 
     res.send("category added");
   } catch (err) {
-    console.log("hello");
-    console.log(err);
+    res.status(500).json({ error: err });
   }
 });
 
@@ -125,6 +124,32 @@ router.delete("/deleteCategory/:id", async (req, res) => {
       res.json("Sucessfully deleted");
     })
     .catch((err) => res.status(500).json({ error: err }));
+});
+
+//change category order
+router.put("/changeCategoryOrder/:id", async (req, res) => {
+  const _id = req.params.id;
+  const firstPosition = req.body.firstPosition;
+  const secondPosition = req.body.secondPosition;
+
+  try {
+    await CategoriesModel.findOneAndUpdate(
+      { orderNumber: secondPosition },
+      {
+        orderNumber: firstPosition,
+      }
+    );
+    await CategoriesModel.findOneAndUpdate(
+      { _id: _id },
+      {
+        orderNumber: secondPosition,
+      }
+    );
+
+    res.json("Order changed");
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
 
 module.exports = router;
