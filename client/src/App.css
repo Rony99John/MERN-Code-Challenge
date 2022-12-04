@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  user-select: none;
 }
 
 .App-logo {
@@ -13,8 +14,17 @@
   }
 }
 .Web-title {
-  color: red;
+  color: Red;
   font-size: xx-large;
+}
+p {
+  cursor: pointer;
+}
+.Item {
+  margin-top: 45px;
+  margin-bottom: 5px;
+  max-width: 850px;
+  width: 50%;
 }
 .App-header {
   background-color: #282c34;

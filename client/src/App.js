@@ -1,24 +1,17 @@
 import "./App.css";
-import { Categories } from "./Components/mockdata";
+import * as React from "react";
+import View from "./Pages/View";
+import Admin from "./Pages/Admin";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p className="Web-title">DISTIN-GUI MENU</p>
-        {Categories.map((Cat) => (
-          <p key={Cat.Order}>{Cat.Name}</p>
-        ))}
-        {/* <
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </> */}
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<View />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
