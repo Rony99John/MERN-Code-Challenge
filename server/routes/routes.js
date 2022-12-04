@@ -152,4 +152,34 @@ router.put("/changeCategoryOrder/:id", async (req, res) => {
   }
 });
 
+//change item order
+router.put("/changeItemOrder/:id", async (req, res) => {
+  const itemId = req.params.id;
+  const firstPosition = req.body.firstPosition;
+  const secondPosition = req.body.secondPosition;
+
+  try {
+    await CategoriesModel.findOneAndUpdate(
+      { "items.itemOrderNumber": secondPosition },
+      {
+        $set: {
+          "items.$.itemOrderNumber": firstPosition,
+        },
+      }
+    );
+    await CategoriesModel.findOneAndUpdate(
+      { "items._id": itemId },
+      {
+        $set: {
+          "items.$.itemOrderNumber": secondPosition,
+        },
+      }
+    );
+
+    res.json("Item Order changed");
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
+
 module.exports = router;
